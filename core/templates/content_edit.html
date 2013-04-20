@@ -1,0 +1,60 @@
+$def with (categories,content)
+$var menu: menu_post
+
+<form class="form-horizontal" method="post">
+	<div class="control-group">
+		<label class="control-label" for="title">分类名称：</label>
+		<div class="controls">
+			<input type="text" id="title" name="title" placeholder="请输入标题" value="$(content.title)"/>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="category_id">发布到：</label>
+		<div class="controls">
+			<select id="category_id" name="category_id">
+				$def printCat(category,indent):
+					<option value="$category.id" $('selected="selected"' if category.id == content.category_id else '')>$:{'&nbsp;&nbsp;&nbsp;'  * indent + (indent != 0 and '|__' or '')  + category.name}</option>
+					$for child in category['childs']:
+						$:printCat(child,indent+1)
+				
+				$for category in categories:
+					$:printCat(category,0)
+			</select>
+		</div>
+	</div>
+    <div class="control-group">
+        <label class="control-label" for="url">接口地址(URL)：</label>
+        <div class="controls">
+            <input type="url" id="url" name="url" placeholder="请输入接口地址" style="width: 500px" value="$content.url"/>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="params">请求参数：</label>
+        <div class="controls">
+            <textarea name="params" id="params" cols="1000" rows="15" style="width: 500px">$content.params</textarea>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="params">接口描述：</label>
+        <div class="controls">
+            <textarea rows="3" id="detail" name="detail" style="width:700px;height:300px;">$content.detail</textarea>
+        </div>
+    </div>
+	<div class="control-group">
+		<div class="controls">
+			<button type="submit" class="btn btn-primary">修改</button>
+			<a href="list" class="btn btn-mini">返回</a>
+		</div>
+	</div>
+</form>
+<script charset="utf-8" src="/static/editor/kindeditor.js"></script>
+<script charset="utf-8" src="/static/editor/lang/zh_CN.js"></script>
+<script>
+        var editor;
+        KindEditor.ready(function(K) {
+                editor = K.create('#detail',{
+                    uploadJson : '/api/fileupload',
+                    allowFileManager : false
+           		 });
+        });
+</script>

@@ -1,0 +1,52 @@
+$def with (categories,cur_cat_id,contents,page,page_amount)
+$var menu: menu_list
+<div class="row">
+    <div class="span3">
+        <ul class="nav nav-pills nav-stacked">
+            $def printCat(category,indent):
+                <li $:{'class="active"' if category.id == cur_cat_id else ''}>
+                    <a href="?category=$category.id">
+                    $:{'&nbsp;&nbsp;&nbsp;'  * indent + (indent != 0 and '|__' or '')  + category.name}
+                    </a>
+                </li>
+                
+                $for child in category['childs']:
+                    $:printCat(child,indent+1)
+                
+            $for category in categories:
+                $:printCat(category,0)
+            
+        </ul>
+    </div>
+    <div class="span7">
+        <table class="table table-hover table-striped">
+            <tbody>
+                $for content in contents:
+                    <tr>
+                        <td><a href="$content.id">$content.title</a></td>
+                        <td><a href="$content.id/test">测试接口</a></td>
+                        <td style="text-align:right">$content.update_date</td>
+                        <td><a href="$content.id/del?category=$(cur_cat_id)"
+                               onclick='javascript:if(confirm("确定删除此接口吗?")) return true;else return false'>删除</a>
+                    </tr>
+                    
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" style="text-align:right">    
+                        <div class="pagination">
+                          <ul>
+                              $if page > 1:
+                                <li><a href="?category=$(cur_cat_id)&page=1"><i class="icon-fast-backward" title="第一页"></i></a></li>
+                                <li><a href="?category=$(cur_cat_id)&page=$(page-1)"><i class="icon-step-backward" title="上一页"></i></a></li>
+                            $if page < page_amount:
+                                <li><a href="?category=$(cur_cat_id)&page=$(page+1)"><i class="icon-step-forward" title="下一页"></i></a></li>
+                                <li><a href="?category=$(cur_cat_id)&page=$(page_amount)"><i class="icon-fast-forward" title="最末页"></i></a></li>
+                          </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+$def with (categories,curCat)
+$var menu: menu_category
+
+<form class="form-horizontal" method="post">
+	<div class="control-group">
+		<label class="control-label" for="name">项目名称：</label>
+		<div class="controls">
+			<input type="text" id="name" name="name" placeholder="请输入项目名称" value="$curCat.name"/>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="parent_id">上级项目：</label>
+		<div class="controls">
+			<select id="parent_id" name="parent_id" disabled="disabled">
+				$if curCat.parent_id == 0:
+					<option value="0" selected="selected">顶级项目</option>
+				$else:
+					<option value="0">顶级项目</option>
+					
+				$def printCat(category,indent):
+					<option value="$category.id" $:('selected="selected"' if category.id==curCat.parent_id else "")>$:{'&nbsp;&nbsp;&nbsp;'  * indent + (indent != 0 and '|__' or '')  + category.name}</option>
+					$for child in category['childs']:
+						$:printCat(child,indent+1)
+				
+				$for category in categories:
+					$:printCat(category,0)
+			</select>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="description">项目描述：</label>
+		<div class="controls">
+			<textarea rows="3" id="description" name="description">$curCat.description</textarea>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<button type="submit" class="btn btn-primary">修改</button>
+			<a href="../list" class="btn btn-mini">返回</a>
+		</div>
+	</div>
+</form>
