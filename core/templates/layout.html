@@ -5,7 +5,8 @@ $def with (content)
     <meta charset="utf-8">
     <title>彩讯科技http接口测试套件</title>
     <link href="/static/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-    <link rel="shortcut icon" href="/static/img/favicon.ico">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
 </head>
 <body>
 <!-- body -->
@@ -18,7 +19,7 @@ $def with (content)
                 <li id="menu_post"><a href="/api/content/add">发布接口<i class="icon-chevron-right"></i></a></li>
                 <li id="menu_list"><a href="/api/content/list">接口列表<i class="icon-chevron-right"></i></a></li>
                 <li id="menu_category"><a href="/api/category/list">项目管理<i class="icon-chevron-right"></i></a></li>
-                <li id="menu_plug"><a href="#">设置选项<i class="icon-chevron-right"></i></a></li>
+                <li id="menu_setting"><a href="/api/testuser/list">设置选项<i class="icon-chevron-right"></i></a></li>
             </ul>
         </div>
         <!-- main content -->
@@ -28,16 +29,11 @@ $def with (content)
     </div>
     <!-- end body -->
 </div>
-
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
 </body>
 <script type="text/javascript">
     //var curren = $$("#$content.menu");
     var curren = $$('li[id^="$content.menu"]');
     curren.addClass("active");
-    $$(document).ready(function () {
 
-    });
 </script>
 </html>

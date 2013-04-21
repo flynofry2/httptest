@@ -17,3 +17,9 @@ CREATE TABLE t_content (
   insert_date DATETIME     NOT NULL,
   update_date DATETIME     NOT NULL
 );
+
+create table t_testuser(
+  id          INT(11)      NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  username       VARCHAR(30) NOT NULL,
+  password         VARCHAR(30) NOT NULL
+)

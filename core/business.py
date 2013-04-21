@@ -19,3 +19,10 @@ def genCategoriesTree():
     categories = db.select('t_category')
     cache_categories = [category for category in categories]
     return [genSingleTree(category, cache_categories) for category in cache_categories if category.parent_id == 0]
+
+
+def getCategoryPathById(categoryId):
+    category = db.select('t_category',where = "id = " + str(categoryId))[0]
+    path = category.path.split('$')
+    return [db.select('t_category',where = "id = " + pathId)[0] for pathId in path if pathId]
+

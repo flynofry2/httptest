@@ -1,0 +1,58 @@
+$def with (content,path,user)
+$var menu: menu_list
+
+<form class="form-horizontal" method="post" id="testform">
+	<div class="control-group">
+		<label class="control-label" for="title">接口名称：</label>
+		<div class="controls">
+			<input type="text" id="title" name="title" placeholder="请输入标题" value="$(content.title)" readonly/>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="category_id">所属项目：</label>
+		<div class="controls">
+            <ul class="breadcrumb">
+                $for pathElement in path:
+                    <li><a href="../list?category=$pathElement.id">$pathElement.name</a> <span class="divider">/</span>
+                <li class="active">$content.title</li>
+            </ul>
+		</div>
+        <label class="control-label" for="user">当前测试账号：</label>
+        <div class="controls">
+           $:{user.username if user else '当前没有选中账号测试'}  <a href="/api/testuser/list">切换测试账号</a>
+        </div>
+	</div>
+    <div class="control-group">
+        <label class="control-label" for="url">接口地址(URL)：</label>
+        <div class="controls">
+            <input type="url" id="url" name="url" placeholder="请输入接口地址" style="width: 500px" value="$content.url"/>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="params">请求参数：</label>
+        <div class="controls">
+            <textarea name="params" id="params" cols="1000" rows="15" style="width: 500px">$content.params</textarea>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <input id="testButton" type="button" class="btn btn-primary" value="执行测试"/>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="result">输出：</label>
+        <div class="controls">
+            <textarea rows="3" id="result" name="result" style="width:700px;height:300px;"></textarea>
+        </div>
+    </div>
+</form>
+<script>
+    $$(document).ready(function () {
+        $$("#testButton").click(function(){
+            $$("#result").val('正在执行......');
+            $$.post("test",$$("#testform").serialize(),function(result){
+                $$("#result").val(result);
+            });
+        });
+    });
+</script>
